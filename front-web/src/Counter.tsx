@@ -1,4 +1,3 @@
-import { count } from "console";
 import { useState } from "react";
 
 function Counter() {
