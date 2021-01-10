@@ -11,3 +11,16 @@ export type OrderLocationData = {
     longitude: number,
     address: string,
 };
+
+type ProductId = {
+    id: number;
+};
+
+export type OrderPayload = {
+    products: ProductId[];
+
+} & OrderLocationData;
+
+// A expressão - & OrderLocationData - faz um merge entre o Tipo OrderPayload AND OrderLocationData.
+
+//const x: OrderPayload = undefined;
