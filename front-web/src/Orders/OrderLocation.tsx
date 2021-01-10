@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import AsyncSelect from 'react-select/async';
 import { useState } from 'react';
 import { fetchLocalMapBox } from '../api';
+import { OrderLocationData } from './types';
 
 
 const initialPosition = {
@@ -18,9 +19,13 @@ type Place = {
     }  
 };
 
+type Props = {
+    onChangeLocation: (location: OrderLocationData) => void;
+};
 
 
-function OrderLocation() {
+
+function OrderLocation({ onChangeLocation }: Props) {
 
     const [address, setAddress] = useState<Place>({
         position: initialPosition,
@@ -49,11 +54,11 @@ function OrderLocation() {
       
     const handleChangeSelect = (place: Place) => {
           setAddress(place);
-          /*onChangeLocation({
+          onChangeLocation({
             latitude: place.position.lat,
             longitude: place.position.lng,
             address: place.label!
-          });*/
+          })
     };
 
   
@@ -74,14 +79,18 @@ function OrderLocation() {
                     />
                 </div>
 
-                <MapContainer center={address.position} zoom={13} scrollWheelZoom>
+                <MapContainer center={address.position} 
+                              zoom={13} 
+                              scrollWheelZoom
+                              key={address.position.lat}
+                >
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <Marker position={address.position}>
                     <Popup>
-                        Meu Marcador.
+                        {address.label}
                     </Popup>
                     </Marker>
                 </MapContainer>
